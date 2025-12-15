@@ -25,18 +25,58 @@ Each D flip-flop in the circuit has a Data (D) input, a Clock (CLK) input, and a
 
 **Procedure**
 
-/* write all the steps invloved */
+// 1. Create a Verilog module with inputs clock, reset, and serial_in, and output serial_out.
+
+2. Use a register to store the shift register contents.
+
+3. Apply an asynchronous reset to clear all flip-flops.
+
+4. On every positive clock edge, shift the data by one position.
+
+5. Insert the serial_in bit into the least significant bit.
+
+6. Take the most significant bit as serial_out.
+
+7. Compile and simulate the design in Quartus to verify the output. //
 
 **PROGRAM**
 
-/* Program for flipflops and verify its truth table in quartus using Verilog programming.
-
-Developed by: RegisterNumber:
-
+/*
+Developed by:Monisha D 
+RegisterNumber:25007487
 */
+```
+module siso_shift_register (
+    input clk,          // Clock input
+    input reset,        // Asynchronous reset
+    input serial_in,    // Serial data input
+    output serial_out   // Serial data output
+);
+
+reg [3:0] q;            // Internal shift register
+
+always @(posedge clk or posedge reset) begin
+    if (reset)
+        q <= 4'b0000;               // Clear register on reset
+    else
+        q <= {q[2:0], serial_in};   // Shift left, insert serial_in
+end
+
+assign serial_out = q[3];           // MSB is serial output
+
+endmodule
+```
 
 **RTL LOGIC FOR SISO Shift Register**
 
+![RTL for serial in serial out](https://github.com/user-attachments/assets/822c3190-8faa-40be-9ab2-1134d321ce67)
+
+
 **TIMING DIGRAMS FOR SISO Shift Register**
 
+![Waveform for serial in serial out ](https://github.com/user-attachments/assets/6453224d-2883-40c4-b286-379053c4b517)
+
+
 **RESULTS**
+
+Thus the Serial-In Serial-Out shift register is implemented and verified.
